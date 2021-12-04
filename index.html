@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Key Helper</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="icon" type="image/png" href="favi.png">
+    </head>
+    <body>
+        <div id="toolbar">
+            <div id="header">Fretboard Key Highlighter</div>
+            <form id="toolForm">
+                <div class="toolbarDiv">
+                    <h2 class="toolOptionsLabel">Tuning:</h2>
+                    <select class="toolOptions" name="tuningType" onchange="draw()">
+                        <option value="standard">standard</option>
+                        <option value="drop">drop</option>
+                    </select>
+                    <select class="toolOptions" name="tuningBaseNote" onchange="draw()">
+                        <option value="a">A</option>
+                        <option value="as">A#</option>
+                        <option value="b">B</option>
+                        <option value="c">C</option>
+                        <option value="cs">C#</option>
+                        <option value="d">D</option>
+                        <option value="ds">D#</option>
+                        <option value="e" selected>E</option>
+                        <option value="f">F</option>
+                        <option value="fs">F#</option>
+                        <option value="g">G</option>
+                        <option value="gs">G#</option>
+                    </select>
+                </div>
+                <div class="toolbarDiv">
+                    <h2 class="toolOptionsLabel">Key:</h2>
+                    <select class="toolOptions" name="keyNote" onchange="draw()">
+                        <option value="a">A</option>
+                        <option value="as">A#</option>
+                        <option value="b">B</option>
+                        <option value="c">C</option>
+                        <option value="cs">C#</option>
+                        <option value="d">D</option>
+                        <option value="ds">D#</option>
+                        <option value="e">E</option>
+                        <option value="f">F</option>
+                        <option value="fs">F#</option>
+                        <option value="g">G</option>
+                        <option value="gs">G#</option>
+                    </select>
+                    <select class="toolOptions" name="keyMode" onchange="draw()">
+                        <option value="major">major</option>
+                        <option value="minor" selected>minor</option>
+                    </select>
+                </div>
+                <div class="toolbarDiv">
+                    <h2 class="toolOptionsLabel">Frets:</h2>
+                    <select class="toolOptions" name="fretCount" onchange="draw()">
+                        <option value="21">21</option>
+                        <option value="24" selected>24</option>
+                    </select>
+                </div>
+            </form>
+            <div id="practiceDiv">
+                <div id="pString" class="pDisplay"></div>
+                <div id="pNote" class="pDisplay"></div>
+                <input type="number" id="practiceTime">
+                <input type="button" onclick="startPractice()">
+            </div>
+        </div>
+        <div id="main">
+            <div id="neck"></div>
+        </div>
+    </body>
+    <script type="text/javascript" src="index.js"></script>
+</html>
