@@ -8,3 +8,7 @@ To Use:
 Not optimised for mobile
 
 Tested in google chrome, not sure if it looks good in other browsers
+
+**Notice**
+ 
+ I do not own the background image, I got it from here https://unsplash.com/photos/VNKZvRIN85A
