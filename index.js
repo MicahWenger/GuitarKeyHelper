@@ -13,6 +13,7 @@ var NOTES = [
 ];
 
 var stringSteps = [5,5,5,4,5,0];
+var stringNames = ['E','B','G','D','A','E'];
 var numStrings = 6;
 
 var strings = [];
@@ -22,6 +23,10 @@ var fretCount, baseNote, tuningType, keyNote, modeSteps;
 var fretMarkersDrawn = false;
 var neck = document.getElementById("neck");
 var form = document.getElementById("toolForm");
+var inKeyNOTES;
+
+// practice game vars
+var time, timer, pString, pNote;
 
 function deleteOldDrawing(){
     for (let s = 0; s < strings.length; s++)
@@ -88,20 +93,15 @@ function drawFretMarkers(){
 function draw(){
     deleteOldDrawing();
     refreshFormVals();
-    if (tuningType == "drop")
-        stringSteps[0] = 7;
-    else
-        stringSteps[0] = 5;
+    stringSteps[0] = tuningType == "drop" ? 7 : 5;
 
-    var inKeyNOTES = [];
+    inKeyNOTES = [];
     let lastInKeyNote = noteToInt(keyNote);
 
     for (let m = 0; m < modeSteps.length; m++){
         inKeyNOTES.push(NOTES[lastInKeyNote % 12]);
         lastInKeyNote += modeSteps[m];
     }
-    //console.log(inKeyNOTES);
-
     let stringNote = noteToInt(baseNote);
     for (let s = 0; s < numStrings; s++){
         let string = document.createElement("div");
@@ -109,7 +109,6 @@ function draw(){
         string.style.height = parseInt(window.getComputedStyle(neck).height) / numStrings -1 + "px";
         string.style.top = 1;
         strings.push(string);
-        //console.log("pushing '"+NOTES[stringNote % 12]+"' string to the neck");
 
         // create frets
         let fretNote = stringNote;
@@ -132,4 +131,58 @@ function draw(){
     // add frett markers
     drawFretMarkers();
 }
+
+
+// practice functionality
+function stopPractice(){
+    clearInterval(timer);
+    document.getElementById("startButton").style.backgroundColor="limegreen";
+    document.getElementById("startButton").innerText="Start";
+    document.getElementById("startButton").onclick=startPractice;
+    draw();
+}
+function startPractice(){
+    time = document.getElementById("practiceTime").value;
+    pNote = NOTES[parseInt(Math.random()*NOTES.length)];
+    pString = parseInt(Math.random()*numStrings);
+    document.getElementById("pNote").innerText = "Note: "+ pNote.replace("s", "#").toUpperCase();
+    document.getElementById("pString").innerText = "String: "+ stringNames[5-pString];
+    document.getElementById("startButton").style.backgroundColor="red";
+    document.getElementById("startButton").innerText="Stop";
+    document.getElementById("startButton").onclick=stopPractice;
+
+    // clear note values
+    for (let s in strings){
+        let fts = Array.from(strings[s].children);
+        for (let f in fts){
+            fts[f].innerText = "";
+            fts[f].setAttribute("class", s == pString ? "fret inKey" : "fret outKey");
+        }
+    }
+    timer = setInterval(updatePtimer, 1000);
+}
+function updatePtimer(){
+    if (time < 0){
+        clearInterval(timer);
+        revealAnswer();
+    }
+    else{
+        document.getElementById("pTime").innerText = time + "s";
+        time--;
+    }
+}
+function revealAnswer(){
+    let fts = Array.from(strings[pString].children);
+    let fretNote = noteToInt(stringNames[5-pString].toLowerCase());
+    for (let f in fts){
+        fts[f].setAttribute("class", NOTES[fretNote % 12] == pNote ? "fret inKey" : "fret outKey");
+        fts[f].innerText = NOTES[fretNote % 12].replace("s","#").toUpperCase();
+        fretNote++;
+    }
+    setTimeout(function(){
+        startPractice();
+    }, 5000);
+}
+
+
 draw();

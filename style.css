@@ -58,23 +58,39 @@ select{
 
 /* Practice corner */
 #practiceDiv{
-    background-color: blue;
+    background-color: rgba(0,0,0,0.5);
     height: 90%;
     width: 23%;
+    max-width: 200px;
     top: 1%;
-    right: 1%;
+    left: 77%;
     float: right;
     position: absolute;
-
-}
-#pString{
-
-}
-#pNote{
-
+    border-radius: 15px;
+    padding: 5px;
 }
 .pDisplay{
-
+    font-size: 30px;
+    color: white;
+    font-weight: bold;
+}
+#practiceDiv input{
+    border-radius: 5px;
+    float: left;
+}
+#startButton{
+    float: left;
+    background-color: limegreen;
+    font-size: 20px;
+    padding: 5px;
+    font: serif;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#practiceTime{
+    width: 40px;
+    font-size: 20px;
 }
 
 
@@ -85,7 +101,6 @@ select{
     height: calc(100vh - 200px);
     top: 150px;
     position: fixed;
-
 }
 #neck{
     background-color: #855E42;
