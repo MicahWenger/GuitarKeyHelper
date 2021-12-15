@@ -1,9 +1,18 @@
 # GuitarKeyHelper
-A small web app that shows what notes on a guitar neck are in a given key
+A small web page that shows what notes on a guitar neck are in a given key, also has a little practice exercise to help with memorization
 
-To Use:
-- Oopen index.html with your web browser
+## To Use:
+- Open index.html with your web browser
 - Select the tuning of the guitar and what key in the upper left corner of the screen
+
+## Interactive Practice - Upper right corner
+
+#### This is indented to be used while actualy holding a guitar. To help memorize where notes are on the fretboard
+- Select how much time how need for each note
+- Click start - (The practice will repeat until you stop it)
+
+
+
 
 Not optimised for mobile
 
