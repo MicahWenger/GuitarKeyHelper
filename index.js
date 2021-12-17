@@ -45,6 +45,7 @@ function refreshFormVals(){
     tuningType = form.tuningType.value;
     keyNote = form.keyNote.value;
     modeSteps = form.keyMode.value == "major" ? MAJOR_STEPS : MINOR_STEPS;
+    stopPractice(null, false);
 }
 
 // simple casting function to get numberic symbol for a note
@@ -103,6 +104,7 @@ function draw(){
         lastInKeyNote += modeSteps[m];
     }
     let stringNote = noteToInt(baseNote);
+
     for (let s = 0; s < numStrings; s++){
         let string = document.createElement("div");
         string.setAttribute("class", "string");
@@ -134,19 +136,19 @@ function draw(){
 
 
 // practice functionality
-function stopPractice(){
+function stopPractice(event, Draw=true){
     clearInterval(timer);
     document.getElementById("startButton").style.backgroundColor="limegreen";
     document.getElementById("startButton").innerText="Start";
     document.getElementById("startButton").onclick=startPractice;
-    draw();
+    if (Draw)
+        draw();
 }
 function startPractice(){
     time = document.getElementById("practiceTime").value;
     pNote = NOTES[parseInt(Math.random()*NOTES.length)];
     pString = parseInt(Math.random()*numStrings);
     document.getElementById("pNote").innerText = "Note: "+ pNote.replace("s", "#").toUpperCase();
-    document.getElementById("pString").innerText = "String: "+ stringNames[5-pString];
     document.getElementById("startButton").style.backgroundColor="red";
     document.getElementById("startButton").innerText="Stop";
     document.getElementById("startButton").onclick=stopPractice;
@@ -155,10 +157,14 @@ function startPractice(){
     for (let s in strings){
         let fts = Array.from(strings[s].children);
         for (let f in fts){
-            fts[f].innerText = "";
+            if (fts[f].innerText != ""){
+                fts[f].note = fts[f].innerText;
+                fts[f].innerText = "";
+            }
             fts[f].setAttribute("class", s == pString ? "fret inKey" : "fret outKey");
         }
     }
+    document.getElementById("pString").innerText = "String: "+ strings[pString].firstChild.note;
     timer = setInterval(updatePtimer, 1000);
 }
 function updatePtimer(){
@@ -173,11 +179,9 @@ function updatePtimer(){
 }
 function revealAnswer(){
     let fts = Array.from(strings[pString].children);
-    let fretNote = noteToInt(stringNames[5-pString].toLowerCase());
     for (let f in fts){
-        fts[f].setAttribute("class", NOTES[fretNote % 12] == pNote ? "fret inKey" : "fret outKey");
-        fts[f].innerText = NOTES[fretNote % 12].replace("s","#").toUpperCase();
-        fretNote++;
+        fts[f].setAttribute("class", fts[f].note.toLowerCase().replace("#", "s") == pNote ? "fret inKey" : "fret outKey");
+        fts[f].innerText = fts[f].note;
     }
     setTimeout(function(){
         startPractice();
